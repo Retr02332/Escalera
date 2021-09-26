@@ -16,17 +16,6 @@ public class Controller {
 	Player player = new Player();
 	Dado dado = new Dado();
 	int limitRow = 10;
-
-	/*
-	 * Función para obtener la distancia que debe recorrer el jugador para avanzar en las casillas
-	 * 
-	 * @Param face: Numero que salio en el dado cuando el jugador lo lanzo
-	 * 
-	 * Return: Distancia que debe recorrer el jugador en la GUI (float)
-	 * */
-	private float getDistanceToMovePLayer(int face) {
-		return (float)(face * DISTANCE_BETWEEN_CELLS);
-	}
 	
 	/*
 	 * Función para actualizar la posición (casilla) actual del jugador
@@ -122,8 +111,7 @@ public class Controller {
 	 * */
 	public Pair<Integer,Float> gameTurn() {
 		int face = player.rollDie(dado);
-		float distanceToMovePlayer = getDistanceToMovePLayer(face);
 		movePlayerBackend((player.getCurrentPosition() + face));
-		return new Pair(face, distanceToMovePlayer);
+		return new Pair(face, DISTANCE_BETWEEN_CELLS);
 	}
 }
