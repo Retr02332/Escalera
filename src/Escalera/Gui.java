@@ -1,17 +1,17 @@
 package Escalera;
 
-import javafx.util.Pair;
+import java.util.ArrayList;
 
 public class Gui {
-	Controller controller = new Controller();
+	private Controller controller = new Controller();
 	
 	/*
 	 * Función para mover el jugador en la GUI
 	 * */
 	public void movePlayer() {
-		Pair<Integer, Float> data = controller.gameTurn();
-		int numberOfCells = data.getKey();
-		float distance = data.getValue();
+		ArrayList<Integer> data = controller.gameTurn();
+		int numberOfCells = data.get(0);
+		float distance = data.get(1);
 		
 		for(int i=0; i < numberOfCells; i++) {
 			if((controller.getCurrentPositionPlayer() % 10) == 0) {

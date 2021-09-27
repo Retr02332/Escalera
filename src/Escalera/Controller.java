@@ -1,21 +1,22 @@
 package Escalera;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import javafx.util.Pair;
 
 public class Controller {
-	private float DISTANCE_BETWEEN_CELLS = (float)0.5; // ¿Unidad de medida?
-	HashMap<Integer, Integer> stairs = new HashMap<Integer, Integer>() {{ 
+	private int DISTANCE_BETWEEN_CELLS = 100; // ¿Unidad de medida? => px
+	private HashMap<Integer, Integer> stairs = new HashMap<Integer, Integer>() {{ 
 		put(6,30);
 		put(45,90); 
 	}};
-	HashMap<Integer, Integer> snakes = new HashMap<Integer, Integer>() {{
+	private HashMap<Integer, Integer> snakes = new HashMap<Integer, Integer>() {{
 		put(10,2);
 		put(90,7);
 	}};
-	Player player = new Player();
-	Dado dado = new Dado();
-	int limitRow = 10;
+	private Player player = new Player();
+	private Dado dado = new Dado();
+	private int limitRow = 10;
 	
 	/*
 	 * Función para actualizar la posición (casilla) actual del jugador
@@ -109,9 +110,9 @@ public class Controller {
 	 * 
 	 * Return: (cara del dado, distancia que debe recorrer el player para avanzar)
 	 * */
-	public Pair<Integer,Float> gameTurn() {
+	public ArrayList<Integer> gameTurn() {
 		int face = player.rollDie(dado);
 		movePlayerBackend((player.getCurrentPosition() + face));
-		return new Pair(face, DISTANCE_BETWEEN_CELLS);
+		return new ArrayList<Integer>(Arrays.asList(face, DISTANCE_BETWEEN_CELLS));
 	}
 }
