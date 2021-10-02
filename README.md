@@ -6,4 +6,3 @@
 
 * Carlos Andrés Bello Ramírez
 * Javier Castrillón
-* Daniel Bermudez
