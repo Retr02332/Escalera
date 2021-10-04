@@ -27,7 +27,7 @@ public class Player {
 	 */
 	public int rollDie(Dado dado) {
 		Random random = new Random();
-		int face = random.nextInt(6)+1;  // Entre 1 y 6
+		int face = random.nextInt(5)+0;  // Entre 1 y 6
 		return dado.getFaces().get(face);
 	}
 	

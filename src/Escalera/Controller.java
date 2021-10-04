@@ -67,20 +67,6 @@ public class Controller {
 		return (limitRow == 100)? 10 : (limitRow / 10);
 	}
 	
-	/* 
-	 * Obtener la dirección en donde se debe desplazar el jugador
-	 * 
-	 * Return left|right
-	 */
-	public String getDirection() {
-		if(decompose(limitRow) % 2 == 0) {
-			return "left";
-		}
-		else {
-			return "right";
-		}
-	}
-	
 	/*
 	 *  Función para comprobar si en la posición actual (despues de mover al jugador) hay una escalera o no
 	 *  
@@ -113,6 +99,6 @@ public class Controller {
 	public ArrayList<Integer> gameTurn() {
 		int face = player.rollDie(dado);
 		movePlayerBackend((player.getCurrentPosition() + face));
-		return new ArrayList<Integer>(Arrays.asList(face, DISTANCE_BETWEEN_CELLS));
+		return new ArrayList<Integer>(Arrays.asList(face, player.getCurrentPosition()));
 	}
 }
