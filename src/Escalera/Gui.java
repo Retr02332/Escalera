@@ -17,28 +17,27 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 import java.awt.Dimension;
 
 public class Gui extends JFrame {
 	private JLabel labelDie;
-	private JLabel firstPlayer;
-	private JLabel secondPlayer;
-	private JLabel thirdPlayer;
 	private JButton rollDie;
 	private Listener listener;
-	private JFrame frame = this;
+	private JLabel firstPlayer;
+	private JLabel thirdPlayer;
+	private JLabel secondPlayer;
 	private Controller controller;
 	private MatrizMaker matrizMaker;
 	private GridBagConstraints constraints;
-	private JPanel panelMatriz = new JPanel(new FlowLayout());
 	private JPanel panelInfo = new JPanel(new GridBagLayout());
 	
 	public Gui() {
 		initGui();
 		this.pack();
 		this.setVisible(true);
-        this.setSize(new Dimension(650, 420));
+        this.setSize(new Dimension(750, 750));
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Escaleras y serpientes");
@@ -46,11 +45,8 @@ public class Gui extends JFrame {
 	}
 	
 	public void initGui() {
-		this.getContentPane().setLayout(new BorderLayout());
-		panelInfo.setPreferredSize(new Dimension(650, 240));
-		panelMatriz.setPreferredSize(new Dimension(650, 180));
-		matrizMaker = new MatrizMaker(frame, panelMatriz, 10, 10, 1, true);
-		constraints = new GridBagConstraints();
+		matrizMaker = new MatrizMaker(10, 1);
+		panelInfo.setPreferredSize(new Dimension(750, 95));
 		controller = new Controller();
 		listener = new Listener();
 		
@@ -75,7 +71,9 @@ public class Gui extends JFrame {
 		constraints = makeConstraints(1, 5, 1, 1, 0, GridBagConstraints.NONE);
 		panelInfo.add(thirdPlayer, constraints);
 		
-		add(panelInfo, BorderLayout.PAGE_END);
+		add(this.matrizMaker, BorderLayout.NORTH);
+        add(new JSeparator(), BorderLayout.CENTER);
+        add(panelInfo, BorderLayout.SOUTH);
 	}
 	
 	public GridBagConstraints makeConstraints(int gridx, int gridy, int gridwidth, int gridheight, int ipady, int fill) {
@@ -98,8 +96,8 @@ public class Gui extends JFrame {
 		public void actionPerformed(ActionEvent eventAction) {
 			if(eventAction.getSource() == rollDie) {
 				ArrayList<Integer> newPosition = controller.gameTurn();
-				labelDie.setText("Cara actual: "+newPosition.get(0));
-				matrizMaker = new MatrizMaker(frame, panelMatriz, 10, 10, newPosition.get(1), false);
+				labelDie.setText("Cara actual: " + newPosition.get(0));
+				matrizMaker = new MatrizMaker(10, newPosition.get(1)); // Movimiento
 			}
 		}
 	}

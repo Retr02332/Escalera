@@ -1,62 +1,61 @@
 package Escalera;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 
-public class MatrizMaker extends GridLayout {
-	private final JPanel panelMatriz;
-	private final JFrame jFrame;
-    private final int columnas;
+/**
+ * Make a GridLayout
+ */
+
+public class MatrizMaker extends JPanel {
     private final int filas;
+    private final int columnas;
+    private GridLayout gridLayout;
 
-    public MatrizMaker(final JFrame jFrame, final JPanel panelMatriz, final int filas, final int columnas, final int currentPos, boolean init) {
-        super(filas, columnas);
-        this.filas = filas;
-        this.columnas = columnas;
-        this.panelMatriz = panelMatriz;
-        this.jFrame = jFrame;
+    public MatrizMaker(final int dimension, final int currentPos) {
+        this.filas = dimension;
+        this.columnas = dimension;
+        this.gridLayout = new GridLayout(filas, columnas);
+        super.setLayout(gridLayout);
 
-        this.matriz(currentPos, init);
+        this.fillMatriz(currentPos);
     }
 
-    private void matriz(final int currentPos, boolean init) {
-        fillMatriz(currentPos, init);
-    }
-
-    private void fillMatriz(final int currentPos, boolean init) {
+    private void fillMatriz(final int currentPos) {
         int count = 100;
         removeBoxes();
         for(int f=0; f<filas; f++) {
             for(int c=0; c<columnas; c++) {
-                JPanel panel = centerJLabel(new JLabel(String.valueOf(count)));
+                final JPanel panel = centerJLabel(new JLabel(String.valueOf(count)));
                 if(count == currentPos) {
                 	panel.setBackground(Color.blue);
                 }
-                this.panelMatriz.add(panel);
                 count--;
+                super.add(panel);
             }
         }
-        if(init) {this.jFrame.add(this.panelMatriz, BorderLayout.PAGE_START);}
     }
 
-    private JPanel centerJLabel(final JLabel jLabel) {
+    public static JPanel centerJLabel(final JLabel jLabel) {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+        //Para centrar el JLabel dentro del JPanel
         jLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel.add(jLabel, BorderLayout.CENTER);
+        panel.setPreferredSize(new Dimension(45, 60));
         return panel;
     }
     
     private void removeBoxes() {
-    	this.panelMatriz.removeAll();
-        this.panelMatriz.revalidate();
-        this.panelMatriz.repaint();
+    	super.removeAll();
+        super.revalidate();
+        super.repaint();
     }
 }
