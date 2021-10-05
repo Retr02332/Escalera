@@ -48,7 +48,7 @@ public class Gui extends JFrame {
 	}
 	
 	public void initGui() {
-		matrizMaker = new MatrizMaker(10, 0, 1);
+		matrizMaker = new MatrizMaker(10, 0, 1, 0);
 		panelInfo.setPreferredSize(new Dimension(750, 115));
 		controller = new Controller();
 		listener = new Listener();
@@ -105,10 +105,15 @@ public class Gui extends JFrame {
 		} else {
 			go(newPosition);
 		}
+		// Simulación de los jugadores 2 y 3
+		controller.nextTurn();
+		if(controller.currentTurn() != 0) {
+			movePlayer();
+		}
 	}
 	
 	private void up(ArrayList<Integer> newPosition) {
-		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1));
+		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1), controller.currentTurn());
 		paintBox();
 		
 		ActionListener upListener = new ActionListener() {
@@ -122,7 +127,7 @@ public class Gui extends JFrame {
 	}
 	
 	private void down(ArrayList<Integer> newPosition) {
-		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1));
+		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1), controller.currentTurn());
 		paintBox();
 		
 		ActionListener downListener = new ActionListener() {
@@ -137,18 +142,18 @@ public class Gui extends JFrame {
 	
 	private void playerUP(ArrayList<Integer> newPosition) {
 		controller.movePlayerBackend(controller.stair(newPosition.get(1)));
-        matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.stair(newPosition.get(1)));
+        matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.stair(newPosition.get(1)), controller.currentTurn());
         paintBox();
 	}
 	
 	private void playerDOWN(ArrayList<Integer> newPosition) {
 		controller.movePlayerBackend(controller.snake(newPosition.get(1)));
-		matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.snake(newPosition.get(1)));
+		matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.snake(newPosition.get(1)), controller.currentTurn());
         paintBox();
 	}
 	
 	private void go(ArrayList<Integer> newPosition) {
-		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1));
+		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1), controller.currentTurn());
 		paintBox();
 	}
 	
@@ -179,7 +184,9 @@ public class Gui extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			if(eventAction.getSource() == rollDie) {
-		        movePlayer();
+				if(controller.currentTurn() == 0) {
+					movePlayer();
+				}
 			}
 		}
 	}

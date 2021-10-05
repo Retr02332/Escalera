@@ -15,8 +15,19 @@ public class Controller {
 		put(42,22);
 		put(29,7);
 	}};
-	private Player player = new Player();
+	//private Player player = new Player();
+	private ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(new Player(), new Player(), new Player()));
 	private Dado dado = new Dado();
+	private int turn = 0;
+	
+	public void nextTurn() {
+		if(turn == 2) {turn = 0;}
+		else {turn++;}
+	}
+	
+	public int currentTurn() {
+		return turn;
+	}
 	
 	/*
 	 * Función para actualizar la posición (casilla) actual del jugador
@@ -24,7 +35,7 @@ public class Controller {
 	 * @Param newPosition: Casilla donde el jugador se debe desplazar
 	 * */
 	public void movePlayerBackend(int newPosition) {
-		player.move(newPosition);
+		players.get(turn).move(newPosition);
 	}
 	
 	/*
@@ -33,7 +44,7 @@ public class Controller {
 	 * Return: Posición actual del jugador (int)
 	 * */
 	public int getCurrentPositionPlayer() {
-		return player.getCurrentPosition();
+		return players.get(turn).getCurrentPosition();
 	}
 	
 	/*
@@ -66,8 +77,8 @@ public class Controller {
 	 * Return: (cara del dado, distancia que debe recorrer el player para avanzar)
 	 * */
 	public ArrayList<Integer> gameTurn() {
-		int face = player.rollDie(dado);
-		movePlayerBackend((player.getCurrentPosition() + face));
-		return new ArrayList<Integer>(Arrays.asList(face, player.getCurrentPosition()));
+		int face = players.get(turn).rollDie(dado);
+		movePlayerBackend((players.get(turn).getCurrentPosition() + face));
+		return new ArrayList<Integer>(Arrays.asList(face, players.get(turn).getCurrentPosition()));
 	}
 }
