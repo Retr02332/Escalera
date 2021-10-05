@@ -42,41 +42,35 @@ public class MatrizMaker extends JPanel {
             for(int c=0; c<columnas; c++) {
             	final JLabel jLabel = new JLabel(String.valueOf(count));
                 final JPanel panel = centerJLabel(jLabel);
+                lightBox(count, currentPos, panel);
+                count++;
                 
                 if(f == 1) {
-                     jLabel.setText(String.valueOf(count2--));
+                     jLabel.setText(String.valueOf(count2));
                      panel.setBackground(Color.lightGray.brighter());
+                     lightBox(count2, currentPos, panel);
+                     count2--;
                  } else if(f == 3) {
-                     jLabel.setText(String.valueOf(count3--));
+                     jLabel.setText(String.valueOf(count3));
                      panel.setBackground(Color.lightGray.brighter());
+                     lightBox(count3, currentPos, panel);
+                     count3--;
                  } else if(f == 5) {
-                     jLabel.setText(String.valueOf(count4--));
+                     jLabel.setText(String.valueOf(count4));
                      panel.setBackground(Color.lightGray.brighter());
+                     lightBox(count4, currentPos, panel);
+                     count4--;
                  } else if(f == 7) {
-                     jLabel.setText(String.valueOf(count5--));
+                     jLabel.setText(String.valueOf(count5));
                      panel.setBackground(Color.lightGray.brighter());
+                     lightBox(count5, currentPos, panel);
+                     count5--;
                  } else if(f == 9) {
-                     jLabel.setText(String.valueOf(count6--));
+                     jLabel.setText(String.valueOf(count6));
                      panel.setBackground(Color.lightGray.brighter());
+                     lightBox(count6, currentPos, panel);
+                     count6--;
                  }
-                if(markMovement == false) {
-                	// Caso especial (inverso segundo condicional)
-                    if( f % 2 == 1 ) {
-                    	// Ecuación completa: (currentPos + (Formula - face))
-                    	// Formula: (10 - face) + 1
-                    	if(count == (currentPos + (((LIMIT_ROW - faceDie) + 1) - faceDie))) {
-                        	panel.setBackground(Color.blue);
-                        	markMovement = true;
-                        }
-                    }
-                    else {
-                    	if(count == currentPos) {
-                        	panel.setBackground(Color.blue);
-                        	markMovement = true;
-                        }
-                    }
-                }
-                count++;
                 super.add(panel, c);
             }
         }
@@ -90,5 +84,11 @@ public class MatrizMaker extends JPanel {
         panel.add(jLabel, BorderLayout.CENTER);
         panel.setPreferredSize(new Dimension(45, 60));
         return panel;
+    }
+    
+    private void lightBox(final int count, final int currentPos, JPanel panel) {
+    	if(count == currentPos) {
+    		panel.setBackground(Color.blue);
+    	}
     }
 }
