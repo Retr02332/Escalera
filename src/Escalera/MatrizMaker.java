@@ -35,8 +35,6 @@ public class MatrizMaker extends JPanel {
         int count4 = 60;
         int count5 = 80;
         int count6 = 100;
-        int LIMIT_ROW = 10; // Numero maximo de columnas por fila
-        boolean markMovement = false;
         
         for(int f=0; f<filas; f++) {
             for(int c=0; c<columnas; c++) {
