@@ -60,8 +60,7 @@ public class MatrizMaker extends JPanel {
                      panel.setBackground(Color.lightGray.brighter());
                  }
                 if(markMovement == false) {
-                	System.out.println(markMovement);
-                	// Caso especial (inverso segundo condicional) | Falla la formula
+                	// Caso especial (inverso segundo condicional)
                     if( f % 2 == 1 ) {
                     	// Ecuación completa: (currentPos + (Formula - face))
                     	// Formula: (10 - face) + 1
