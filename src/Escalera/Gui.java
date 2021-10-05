@@ -46,7 +46,7 @@ public class Gui extends JFrame {
 	}
 	
 	public void initGui() {
-		matrizMaker = new MatrizMaker(10, 1);
+		matrizMaker = new MatrizMaker(10, 0, 1);
 		panelInfo.setPreferredSize(new Dimension(750, 95));
 		controller = new Controller();
 		listener = new Listener();
@@ -100,7 +100,17 @@ public class Gui extends JFrame {
 	private void movePlayer() {
 		ArrayList<Integer> newPosition = controller.gameTurn();
 		labelDie.setText("Cara actual: " + newPosition.get(0));
-		matrizMaker = new MatrizMaker(10, newPosition.get(1));
+		
+		// Logica de escaleras y serpientes
+		/*if(controller.stair(newPosition.get(1)) != -1) {
+			matrizMaker = new MatrizMaker(10, controller.stair(newPosition.get(1)));
+		} else if(controller.snake(newPosition.get(1)) != -1) {
+			matrizMaker = new MatrizMaker(10, controller.snake(newPosition.get(1)));
+		} else {
+			matrizMaker = new MatrizMaker(10, newPosition.get(1));
+		}*/
+		
+		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1));
 		
 		clearFrame();
 		add(matrizMaker, BorderLayout.NORTH);

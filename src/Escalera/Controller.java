@@ -5,14 +5,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Controller {
-	private int DISTANCE_BETWEEN_CELLS = 100; // ¿Unidad de medida? => px
 	private HashMap<Integer, Integer> stairs = new HashMap<Integer, Integer>() {{ 
-		put(6,30);
-		put(45,90); 
+		put(17,47);
+		put(32,69);
+		put(63,82); 
 	}};
 	private HashMap<Integer, Integer> snakes = new HashMap<Integer, Integer>() {{
-		put(10,2);
-		put(90,7);
+		put(96,52);
+		put(42,22);
+		put(29,7);
 	}};
 	private Player player = new Player();
 	private Dado dado = new Dado();

@@ -19,22 +19,24 @@ public class MatrizMaker extends JPanel {
     private final int columnas;
     private GridLayout gridLayout;
 
-    public MatrizMaker(final int dimension, final int currentPos) {
+    public MatrizMaker(final int dimension, final int faceDie, final int currentPos) {
         this.filas = dimension;
         this.columnas = dimension;
         this.gridLayout = new GridLayout(filas, columnas);
         super.setLayout(gridLayout);
 
-        this.fillMatriz(currentPos);
+        this.fillMatriz(faceDie, currentPos);
     }
 
-    private void fillMatriz(final int currentPos) {
+    private void fillMatriz(final int faceDie, final int currentPos) {
     	int count = 1;
         int count2 = 20;
         int count3 = 40;
         int count4 = 60;
         int count5 = 80;
         int count6 = 100;
+        int LIMIT_ROW = 10; // Numero maximo de columnas por fila
+        boolean markMovement = false;
         
         for(int f=0; f<filas; f++) {
             for(int c=0; c<columnas; c++) {
@@ -42,7 +44,7 @@ public class MatrizMaker extends JPanel {
                 final JPanel panel = centerJLabel(jLabel);
                 
                 if(f == 1) {
-                    jLabel.setText(String.valueOf(count2--));
+                     jLabel.setText(String.valueOf(count2--));
                      panel.setBackground(Color.lightGray.brighter());
                  } else if(f == 3) {
                      jLabel.setText(String.valueOf(count3--));
@@ -57,8 +59,23 @@ public class MatrizMaker extends JPanel {
                      jLabel.setText(String.valueOf(count6--));
                      panel.setBackground(Color.lightGray.brighter());
                  }
-                if(count == currentPos) {
-                	panel.setBackground(Color.blue);
+                if(markMovement == false) {
+                	System.out.println(markMovement);
+                	// Caso especial (inverso segundo condicional) | Falla la formula
+                    if( f % 2 == 1 ) {
+                    	// Ecuación completa: (currentPos + (Formula - face))
+                    	// Formula: (10 - face) + 1
+                    	if(count == (currentPos + (((LIMIT_ROW - faceDie) + 1) - faceDie))) {
+                        	panel.setBackground(Color.blue);
+                        	markMovement = true;
+                        }
+                    }
+                    else {
+                    	if(count == currentPos) {
+                        	panel.setBackground(Color.blue);
+                        	markMovement = true;
+                        }
+                    }
                 }
                 count++;
                 super.add(panel, c);
