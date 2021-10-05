@@ -30,7 +30,6 @@ public class MatrizMaker extends JPanel {
 
     private void fillMatriz(final int currentPos) {
         int count = 100;
-        removeBoxes();
         for(int f=0; f<filas; f++) {
             for(int c=0; c<columnas; c++) {
                 final JPanel panel = centerJLabel(new JLabel(String.valueOf(count)));
@@ -51,11 +50,5 @@ public class MatrizMaker extends JPanel {
         panel.add(jLabel, BorderLayout.CENTER);
         panel.setPreferredSize(new Dimension(45, 60));
         return panel;
-    }
-    
-    private void removeBoxes() {
-    	super.removeAll();
-        super.revalidate();
-        super.repaint();
     }
 }

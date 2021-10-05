@@ -28,6 +28,7 @@ public class Gui extends JFrame {
 	private JLabel firstPlayer;
 	private JLabel thirdPlayer;
 	private JLabel secondPlayer;
+	private JFrame jframe = this;
 	private Controller controller;
 	private MatrizMaker matrizMaker;
 	private GridBagConstraints constraints;
@@ -90,14 +91,34 @@ public class Gui extends JFrame {
 		return constraints;
 	}
 	
+	private void clearFrame() {
+		jframe.getContentPane().removeAll();
+		jframe.revalidate();
+        jframe.repaint();
+	}
+	
+	private void movePlayer() {
+		ArrayList<Integer> newPosition = controller.gameTurn();
+		labelDie.setText("Cara actual: " + newPosition.get(0));
+		matrizMaker = new MatrizMaker(10, newPosition.get(1));
+		
+		clearFrame();
+		add(matrizMaker, BorderLayout.NORTH);
+        add(new JSeparator(), BorderLayout.CENTER);
+        add(panelInfo, BorderLayout.SOUTH);
+        validateUpdateFrame();
+	}
+	
+	private void validateUpdateFrame() {
+		jframe.validate();
+	}
+	
 	private class Listener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent eventAction) {
 			if(eventAction.getSource() == rollDie) {
-				ArrayList<Integer> newPosition = controller.gameTurn();
-				labelDie.setText("Cara actual: " + newPosition.get(0));
-				matrizMaker = new MatrizMaker(10, newPosition.get(1)); // Movimiento
+		        movePlayer();
 			}
 		}
 	}
