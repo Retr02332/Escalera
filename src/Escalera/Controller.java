@@ -17,33 +17,14 @@ public class Controller {
 	}};
 	private Player player = new Player();
 	private Dado dado = new Dado();
-	private int limitRow = 10;
 	
 	/*
 	 * Función para actualizar la posición (casilla) actual del jugador
 	 * 
 	 * @Param newPosition: Casilla donde el jugador se debe desplazar
 	 * */
-	private void movePlayerBackend(int newPosition) {
+	public void movePlayerBackend(int newPosition) {
 		player.move(newPosition);
-	}
-	
-	/*
-	 * Función para actualizar el limite de fila actual
-	 * 
-	 * @Param newLimitRow: nuevo limite de fila 
-	 * */
-	public void updateLimitRow(int newLimitRow) {
-		limitRow = newLimitRow;
-	}
-	
-	/*
-	 * Función para obtener el limite de fila actual
-	 * 
-	 * Return: Limite de fila actual (int)
-	 * */
-	public int getLimitRow() {
-		return limitRow;
 	}
 	
 	/*
@@ -53,19 +34,6 @@ public class Controller {
 	 * */
 	public int getCurrentPositionPlayer() {
 		return player.getCurrentPosition();
-	}
-	
-	/*
-	 * Función para descomponer el limitRow y obtener la decena (o centena si el numero es de 3 cifras)
-	 * del limitRow.
-	 * 
-	 * @Param limitRow: Limita de la fila actual
-	 * 
-	 * Return: centena del limitRow
-	 * 
-	 * */
-	public int decompose(int limitRow) {
-		return (limitRow == 100)? 10 : (limitRow / 10);
 	}
 	
 	/*
@@ -89,7 +57,7 @@ public class Controller {
 	 *  una vez bajemos.
 	 * */
 	public int snake(int currentPositionPlayer) {
-		return (snakes.get(currentPositionPlayer) != null)? stairs.get(currentPositionPlayer) : -1;
+		return (snakes.get(currentPositionPlayer) != null)? snakes.get(currentPositionPlayer) : -1;
 	}
 	
 	/*

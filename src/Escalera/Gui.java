@@ -4,22 +4,22 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.GridBagConstraints;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Dimension;
 
+import java.util.ArrayList;
+
+import javax.swing.JSeparator;
 import javax.swing.JButton;
-//import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-
-import java.awt.Dimension;
+import javax.swing.Timer;
 
 public class Gui extends JFrame {
 	private JLabel labelDie;
@@ -28,6 +28,8 @@ public class Gui extends JFrame {
 	private JLabel firstPlayer;
 	private JLabel thirdPlayer;
 	private JLabel secondPlayer;
+	private Timer delayPlayerUP;
+	private Timer delayPlayerDOWN;
 	private JFrame jframe = this;
 	private Controller controller;
 	private MatrizMaker matrizMaker;
@@ -47,7 +49,7 @@ public class Gui extends JFrame {
 	
 	public void initGui() {
 		matrizMaker = new MatrizMaker(10, 0, 1);
-		panelInfo.setPreferredSize(new Dimension(750, 95));
+		panelInfo.setPreferredSize(new Dimension(750, 115));
 		controller = new Controller();
 		listener = new Listener();
 		
@@ -91,32 +93,81 @@ public class Gui extends JFrame {
 		return constraints;
 	}
 	
+	private void movePlayer() {
+		ArrayList<Integer> newPosition = controller.gameTurn();
+		labelDie.setText("Cara actual: " + newPosition.get(0));
+		
+		// Logica de escaleras y serpientes
+		if(controller.stair(newPosition.get(1)) != -1) {
+			up(newPosition);
+		} else if(controller.snake(newPosition.get(1)) != -1) {
+			down(newPosition);
+		} else {
+			go(newPosition);
+		}
+	}
+	
+	private void up(ArrayList<Integer> newPosition) {
+		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1));
+		paintBox();
+		
+		ActionListener upListener = new ActionListener() {
+		    public void actionPerformed(ActionEvent ae) {
+		    	playerUP(newPosition);
+		    	delayPlayerUP.stop();
+		    }
+		};
+		delayPlayerUP = new Timer(1000, upListener);
+		delayPlayerUP.start();
+	}
+	
+	private void down(ArrayList<Integer> newPosition) {
+		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1));
+		paintBox();
+		
+		ActionListener downListener = new ActionListener() {
+		    public void actionPerformed(ActionEvent ae) {
+		    	playerDOWN(newPosition);
+		    	delayPlayerDOWN.stop();
+		    }
+		};
+		delayPlayerDOWN = new Timer(1000, downListener);
+		delayPlayerDOWN.start();
+	}
+	
+	private void playerUP(ArrayList<Integer> newPosition) {
+		controller.movePlayerBackend(controller.stair(newPosition.get(1)));
+        matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.stair(newPosition.get(1)));
+        paintBox();
+	}
+	
+	private void playerDOWN(ArrayList<Integer> newPosition) {
+		controller.movePlayerBackend(controller.snake(newPosition.get(1)));
+		matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.snake(newPosition.get(1)));
+        paintBox();
+	}
+	
+	private void go(ArrayList<Integer> newPosition) {
+		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1));
+		paintBox();
+	}
+	
 	private void clearFrame() {
 		jframe.getContentPane().removeAll();
 		jframe.revalidate();
         jframe.repaint();
 	}
 	
-	private void movePlayer() {
-		ArrayList<Integer> newPosition = controller.gameTurn();
-		labelDie.setText("Cara actual: " + newPosition.get(0));
-		
-		// Logica de escaleras y serpientes
-		/*if(controller.stair(newPosition.get(1)) != -1) {
-			matrizMaker = new MatrizMaker(10, controller.stair(newPosition.get(1)));
-		} else if(controller.snake(newPosition.get(1)) != -1) {
-			matrizMaker = new MatrizMaker(10, controller.snake(newPosition.get(1)));
-		} else {
-			matrizMaker = new MatrizMaker(10, newPosition.get(1));
-		}*/
-		
-		matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1));
-		
+	private void paintBox() {
 		clearFrame();
+		updateGUI();
+        validateUpdateFrame();
+	}
+	
+	private void updateGUI() {
 		add(matrizMaker, BorderLayout.NORTH);
         add(new JSeparator(), BorderLayout.CENTER);
         add(panelInfo, BorderLayout.SOUTH);
-        validateUpdateFrame();
 	}
 	
 	private void validateUpdateFrame() {
