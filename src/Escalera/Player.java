@@ -5,17 +5,21 @@ import java.util.Random;
 public class Player {
 	private String name = "";
 	private int currentPosition = 1;
+
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	public String getName() {
 		return name;
 	}
 	
-	public int getCurrentPosition() {
-		return currentPosition;
+	public void move(int newPosition) {
+		currentPosition = newPosition;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public int getCurrentPosition() {
+		return currentPosition;
 	}
 	
 	/*
@@ -29,10 +33,5 @@ public class Player {
 		Random random = new Random();
 		int face = random.nextInt(5)+0;  // Entre 1 y 6
 		return dado.getFaces().get(face);
-	}
-	
-	// Este metodo recibe la suma de (posActual + caraDado) para tener la nueva posActual (casilla)
-	public void move(int newPosition) {
-		currentPosition = newPosition;
 	}
 }

@@ -1,22 +1,44 @@
 package Escalera;
 
-import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Controller {
-	private HashMap<Integer, Integer> stairs = new HashMap<Integer, Integer>() {{ 
-		put(17,47);
-		put(32,69);
-		put(63,82); 
-	}};
-	private HashMap<Integer, Integer> snakes = new HashMap<Integer, Integer>() {{
-		put(96,52);
-		put(42,22);
-		put(29,7);
-	}};
-	private Player player = new Player();
+	private List<Player> players = Arrays.asList(new Player(), new Player(), new Player()); 
+	public static final Map<Integer, Integer> STAIRS = new ConcurrentHashMap<>();
+	public static final Map<Integer, Integer> SNAKES = new ConcurrentHashMap<>();
 	private Dado dado = new Dado();
+	private int turn = 0;
+
+	public Controller() {
+		STAIRS.put(17,47);
+		STAIRS.put(32,69);
+		STAIRS.put(63,82);
+		SNAKES.put(96,52);
+		SNAKES.put(42,22);
+		SNAKES.put(29,7);
+	}
+	
+	public void setNamePlayers() {
+		for(int i=0; i<players.size(); i++) {
+			players.get(i).setName("player "+(i+1));
+		}
+	}
+
+	public Player getPlayer() {
+		return players.get(turn);
+	}
+
+	public void nextTurn() {
+		if(turn == 2) {turn = 0;}
+		else {turn++;}
+	}
+	
+	public int getTurn() {
+		return turn;
+	}
 	
 	/*
 	 * Función para actualizar la posición (casilla) actual del jugador
@@ -24,16 +46,16 @@ public class Controller {
 	 * @Param newPosition: Casilla donde el jugador se debe desplazar
 	 * */
 	public void movePlayerBackend(int newPosition) {
-		player.move(newPosition);
+		players.get(turn).move(newPosition);
 	}
-	
+
 	/*
 	 * Función para obtener la posición actual del jugador
 	 * 
 	 * Return: Posición actual del jugador (int)
 	 * */
 	public int getCurrentPositionPlayer() {
-		return player.getCurrentPosition();
+		return players.get(turn).getCurrentPosition();
 	}
 	
 	/*
@@ -45,7 +67,7 @@ public class Controller {
 	 *  una vez subamos.
 	 * */
 	public int stair(int currentPositionPlayer) {
-		return (stairs.get(currentPositionPlayer) != null)? stairs.get(currentPositionPlayer) : -1;
+		return (STAIRS.containsValue(currentPositionPlayer))? STAIRS.get(currentPositionPlayer) : -1;
 	}
 	
 	/*
@@ -57,7 +79,7 @@ public class Controller {
 	 *  una vez bajemos.
 	 * */
 	public int snake(int currentPositionPlayer) {
-		return (snakes.get(currentPositionPlayer) != null)? snakes.get(currentPositionPlayer) : -1;
+		return (SNAKES.containsValue(currentPositionPlayer))? SNAKES.get(currentPositionPlayer) : -1;
 	}
 	
 	/*
@@ -65,9 +87,9 @@ public class Controller {
 	 * 
 	 * Return: (cara del dado, distancia que debe recorrer el player para avanzar)
 	 * */
-	public ArrayList<Integer> gameTurn() {
-		int face = player.rollDie(dado);
-		movePlayerBackend((player.getCurrentPosition() + face));
-		return new ArrayList<Integer>(Arrays.asList(face, player.getCurrentPosition()));
+	public List<Integer> gameTurn() {
+		int face = players.get(turn).rollDie(dado);
+		movePlayerBackend(players.get(turn).getCurrentPosition() + face);
+		return Arrays.asList(face, players.get(turn).getCurrentPosition());
 	}
 }
