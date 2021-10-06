@@ -1,6 +1,10 @@
 package Escalera;
 
+//import escalera.Player;
+
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -9,6 +13,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.Objects;
 
 /**
  * Make a GridLayout
@@ -18,57 +23,78 @@ public class MatrizMaker extends JPanel {
     private final int filas;
     private final int columnas;
     private GridLayout gridLayout;
+    private static final String LADDER = "src/img/ladder.png";
+    private static final String SNAKE = "src/img/snake.png";
 
-    public MatrizMaker(final int dimension, final int faceDie, final int currentPos, int turn) {
+    public MatrizMaker(final int dimension, final int faceDie, final int currentPos,
+                       final Player player) {
         this.filas = dimension;
         this.columnas = dimension;
         this.gridLayout = new GridLayout(filas, columnas);
         super.setLayout(gridLayout);
 
-        this.fillMatriz(faceDie, currentPos, turn);
+        this.fillMatriz(faceDie, currentPos, player);
     }
 
-    private void fillMatriz(final int faceDie, final int currentPos, int turn) {
-    	int count = 1;
+    private void fillMatriz(final int faceDie, final int currentPos, final Player player) {
+        int count = 1;
         int count2 = 20;
         int count3 = 40;
         int count4 = 60;
         int count5 = 80;
         int count6 = 100;
-        
-        for(int f=0; f<filas; f++) {
-            for(int c=0; c<columnas; c++) {
-            	final JLabel jLabel = new JLabel(String.valueOf(count));
+
+        final int[][] matriz = new int[filas][columnas];
+
+        for (int f = 0; f < matriz.length; f++) {
+            for (int c = 0; c < matriz[f].length; c++) {
+                final JLabel jLabel = new JLabel(String.valueOf(count));
                 final JPanel panel = centerJLabel(jLabel);
-                lightBox(count, currentPos, turn, panel);
+                lightBox(count, currentPos, panel, player);
+                //count++;
+
+                /*if(Controller.STAIRS.containsValue(count)) {
+                    jLabel.setIcon(getIcon(LADDER));
+                }
+
+                if(Controller.STAIRS.containsKey(count)) {
+                    jLabel.setIcon(getIcon(LADDER));
+                }
+
+                if(Controller.SNAKES.containsValue(count)) {
+                    jLabel.setIcon(getIcon(SNAKE));
+                }
+                if(Controller.SNAKES.containsKey(count)) {
+                    jLabel.setIcon(getIcon(SNAKE));
+                }*/
                 count++;
-                
-                if(f == 1) {
-                     jLabel.setText(String.valueOf(count2));
-                     panel.setBackground(Color.lightGray.brighter());
-                     lightBox(count2, currentPos, turn, panel);
-                     count2--;
-                 } else if(f == 3) {
-                     jLabel.setText(String.valueOf(count3));
-                     panel.setBackground(Color.lightGray.brighter());
-                     lightBox(count3, currentPos, turn, panel);
-                     count3--;
-                 } else if(f == 5) {
-                     jLabel.setText(String.valueOf(count4));
-                     panel.setBackground(Color.lightGray.brighter());
-                     lightBox(count4, currentPos, turn, panel);
-                     count4--;
-                 } else if(f == 7) {
-                     jLabel.setText(String.valueOf(count5));
-                     panel.setBackground(Color.lightGray.brighter());
-                     lightBox(count5, currentPos, turn, panel);
-                     count5--;
-                 } else if(f == 9) {
-                     jLabel.setText(String.valueOf(count6));
-                     panel.setBackground(Color.lightGray.brighter());
-                     lightBox(count6, currentPos, turn, panel);
-                     count6--;
-                 }
+
+                if (f == 1) {
+                    jLabel.setText(String.valueOf(count2));
+                    panel.setBackground(Color.lightGray.brighter());
+                    lightBox(count2, currentPos, panel, player);
+                    count2--;
+                } else if (f == 3) {
+                    jLabel.setText(String.valueOf(count3));
+                    panel.setBackground(Color.lightGray.brighter());
+                    lightBox(count3, currentPos, panel, player);
+                    count3--;
+                } else if (f == 5) {
+                    jLabel.setText(String.valueOf(count4));
+                    panel.setBackground(Color.lightGray.brighter());
+                    lightBox(count4, currentPos, panel, player);
+                    count4--;
+                } else if (f == 7) {
+                    jLabel.setText(String.valueOf(count5));
+                    panel.setBackground(Color.lightGray.brighter());
+                    lightBox(count5, currentPos, panel, player);
+                    count5--;
+                } else if (f == 9) {
+                    jLabel.setText(String.valueOf(count6));
+                    panel.setBackground(Color.lightGray.brighter());
+                    lightBox(count6, currentPos, panel, player);
+                    count6--;
+                }
                 super.add(panel, c);
             }
         }
@@ -78,25 +104,28 @@ public class MatrizMaker extends JPanel {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
         //Para centrar el JLabel dentro del JPanel
-        jLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        jLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         panel.add(jLabel, BorderLayout.CENTER);
-        panel.setPreferredSize(new Dimension(45, 60));
+        panel.setPreferredSize(new Dimension(70, 60));
         return panel;
     }
-    
-    private void lightBox(final int count, final int currentPos, int turn, JPanel panel) {
-    	if(count == currentPos) {
-    		switch(turn) {
-    		    case 0:
-    		    	panel.setBackground(Color.blue);
-    		    	break;
-    		    case 1:
-    		    	panel.setBackground(Color.green);
-    		    	break;
-    		    case 2:
-    		    	panel.setBackground(Color.red);
-    		    	break;
-    		}
-    	}
+
+    public static ImageIcon getIcon(final String iconName) {
+        return Objects.requireNonNull(new ImageIcon(iconName),
+                "el icono no se encuentra");
+
+    }
+
+    private void lightBox(final int count, final int currentPos, JPanel panel, final Player player) {
+        Logger.log("Current Post: " + count);
+        if (count == currentPos) {
+            if(player.getName().equals(Player.PLAYER_1)) {
+                panel.setBackground(Color.blue);
+            } else if(player.getName().equals(Player.PLAYER_2)) {
+                panel.setBackground(Color.GREEN);
+            } else {//Player 3
+                panel.setBackground(Color.RED);
+            }
+        }
     }
 }
