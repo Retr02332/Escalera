@@ -44,10 +44,12 @@ public class MatrizMaker extends JPanel {
                 final JLabel jLabel = new JLabel(String.valueOf(counters.get(0)));
                 final JPanel panel = centerJLabel(jLabel);
                 lightBox(counters.get(0), currentPos, panel, player);
+                injectImg(jLabel, counters.get(0)); // Error
                 counters.set(0, counters.get(0)+1);
                 
                 switch(f) {
                     case 1:
+                    	injectImg(jLabel, counters.get(1));
                     	jLabel.setText(String.valueOf(counters.get(1)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(1), currentPos, panel, player);
@@ -55,6 +57,7 @@ public class MatrizMaker extends JPanel {
                         break;
                         
                     case 3:
+                    	injectImg(jLabel, counters.get(2));
                     	jLabel.setText(String.valueOf(counters.get(2)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(2), currentPos, panel, player);
@@ -62,6 +65,7 @@ public class MatrizMaker extends JPanel {
                         break;
                     
                     case 5:
+                    	injectImg(jLabel, counters.get(3));
                     	jLabel.setText(String.valueOf(counters.get(3)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(3), currentPos, panel, player);
@@ -69,6 +73,7 @@ public class MatrizMaker extends JPanel {
                         break;
                         
                     case 7:
+                    	injectImg(jLabel, counters.get(4));
                     	jLabel.setText(String.valueOf(counters.get(4)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(4), currentPos, panel, player);
@@ -76,6 +81,7 @@ public class MatrizMaker extends JPanel {
                         break;
                     
                     case 9:
+                    	injectImg(jLabel, counters.get(5));
                     	jLabel.setText(String.valueOf(counters.get(5)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(5), currentPos, panel, player);
@@ -97,10 +103,6 @@ public class MatrizMaker extends JPanel {
         return panel;
     }
 
-    public static ImageIcon getIcon(final String iconName) {
-        return Objects.requireNonNull(new ImageIcon(iconName), "El icono no se encuentra");
-    }
-
     private void lightBox(final int count, final int currentPos, JPanel panel, final Player player) {
         Logger.log("Current Pos: " + count);
         if (count == currentPos) {
@@ -112,5 +114,21 @@ public class MatrizMaker extends JPanel {
                 panel.setBackground(Color.RED);
             }
         }
+    }
+    
+    public void injectImg(JLabel jLabel, int currentPos) {
+    	if(Controller.STAIRS.containsKey(currentPos) || Controller.STAIRS.containsValue(currentPos)) {
+    		System.out.println("Count: "+currentPos);
+    		System.out.println("Key: "+Controller.STAIRS.containsKey(currentPos));
+    		System.out.println("Value: "+Controller.STAIRS.containsValue(currentPos));
+            jLabel.setIcon(getIcon(LADDER));
+        }
+    	else if(Controller.SNAKES.containsKey(currentPos) || Controller.SNAKES.containsValue(currentPos)) {
+    		jLabel.setIcon(getIcon(SNAKE));
+    	}
+    }
+    
+    public static ImageIcon getIcon(final String iconName) {
+        return Objects.requireNonNull(new ImageIcon(iconName), "El icono no se encuentra");
     }
 }

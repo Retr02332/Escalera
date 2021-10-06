@@ -67,7 +67,7 @@ public class Controller {
 	 *  una vez subamos.
 	 * */
 	public int stair(int currentPositionPlayer) {
-		return (STAIRS.containsValue(currentPositionPlayer))? STAIRS.get(currentPositionPlayer) : -1;
+		return (STAIRS.get(currentPositionPlayer) != null)? STAIRS.get(currentPositionPlayer) : -1;
 	}
 	
 	/*
@@ -79,7 +79,7 @@ public class Controller {
 	 *  una vez bajemos.
 	 * */
 	public int snake(int currentPositionPlayer) {
-		return (SNAKES.containsValue(currentPositionPlayer))? SNAKES.get(currentPositionPlayer) : -1;
+		return (SNAKES.get(currentPositionPlayer) != null)? SNAKES.get(currentPositionPlayer) : -1;
 	}
 	
 	/*
