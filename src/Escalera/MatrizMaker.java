@@ -4,12 +4,16 @@ import javax.swing.border.BevelBorder;
 import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.List;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.Dimension;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.util.Objects;
 import java.awt.Color;
 
 /**
@@ -29,58 +33,53 @@ public class MatrizMaker extends JPanel {
         this.gridLayout = new GridLayout(filas, columnas);
         super.setLayout(gridLayout);
 
-        this.fillMatriz(faceDie, currentPos, player);
+        fillMatriz(faceDie, currentPos, player);
     }
 
     private void fillMatriz(final int faceDie, final int currentPos, final Player player) {
-        int count = 1;
-        int count2 = 20;
-        int count3 = 40;
-        int count4 = 60;
-        int count5 = 80;
-        int count6 = 100;
+        List<Integer> counters = Arrays.asList(1, 20, 40, 60, 80, 100); 
 
         for (int f = 0; f < filas; f++) {
             for (int c = 0; c < columnas; c++) {
-                final JLabel jLabel = new JLabel(String.valueOf(count));
+                final JLabel jLabel = new JLabel(String.valueOf(counters.get(0)));
                 final JPanel panel = centerJLabel(jLabel);
-                lightBox(count, currentPos, panel, player);
-                count++;
+                lightBox(counters.get(0), currentPos, panel, player);
+                counters.set(counters.indexOf(counters.get(0)), counters.get(0)+1);
                 
                 switch(f) {
                     case 1:
-                    	jLabel.setText(String.valueOf(count2));
+                    	jLabel.setText(String.valueOf(counters.get(1)));
                         panel.setBackground(Color.lightGray.brighter());
-                        lightBox(count2, currentPos, panel, player);
-                        count2--;
+                        lightBox(counters.get(1), currentPos, panel, player);
+                        counters.set(counters.indexOf(counters.get(1)), counters.get(1)-1);
                         break;
                         
                     case 3:
-                    	jLabel.setText(String.valueOf(count3));
+                    	jLabel.setText(String.valueOf(counters.get(2)));
                         panel.setBackground(Color.lightGray.brighter());
-                        lightBox(count3, currentPos, panel, player);
-                        count3--;
+                        lightBox(counters.get(2), currentPos, panel, player);
+                        counters.set(counters.indexOf(counters.get(2)), counters.get(2)-1);
                         break;
                     
                     case 5:
-                    	jLabel.setText(String.valueOf(count4));
+                    	jLabel.setText(String.valueOf(counters.get(3)));
                         panel.setBackground(Color.lightGray.brighter());
-                        lightBox(count4, currentPos, panel, player);
-                        count4--;
+                        lightBox(counters.get(3), currentPos, panel, player);
+                        counters.set(counters.indexOf(counters.get(3)), counters.get(3)-1);
                         break;
                         
                     case 7:
-                    	jLabel.setText(String.valueOf(count5));
+                    	jLabel.setText(String.valueOf(counters.get(4)));
                         panel.setBackground(Color.lightGray.brighter());
-                        lightBox(count5, currentPos, panel, player);
-                        count5--;
+                        lightBox(counters.get(4), currentPos, panel, player);
+                        counters.set(counters.indexOf(counters.get(4)), counters.get(4)-1);
                         break;
                     
                     case 9:
-                    	jLabel.setText(String.valueOf(count6));
+                    	jLabel.setText(String.valueOf(counters.get(5)));
                         panel.setBackground(Color.lightGray.brighter());
-                        lightBox(count6, currentPos, panel, player);
-                        count6--;
+                        lightBox(counters.get(5), currentPos, panel, player);
+                        counters.set(counters.indexOf(counters.get(5)), counters.get(5)-1);
                         break;
                 }
                 super.add(panel, c);
