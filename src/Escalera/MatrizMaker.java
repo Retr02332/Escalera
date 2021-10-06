@@ -1,19 +1,16 @@
 package Escalera;
 
-//import escalera.Player;
-
+import javax.swing.border.BevelBorder;
+import javax.swing.SwingConstants;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.util.Objects;
+import java.awt.Color;
 
 /**
  * Make a GridLayout
@@ -23,11 +20,10 @@ public class MatrizMaker extends JPanel {
     private final int filas;
     private final int columnas;
     private GridLayout gridLayout;
-    private static final String LADDER = "src/img/ladder.png";
     private static final String SNAKE = "src/img/snake.png";
+    private static final String LADDER = "src/img/ladder.png";
 
-    public MatrizMaker(final int dimension, final int faceDie, final int currentPos,
-                       final Player player) {
+    public MatrizMaker(final int dimension, final int faceDie, final int currentPos, final Player player) {
         this.filas = dimension;
         this.columnas = dimension;
         this.gridLayout = new GridLayout(filas, columnas);
@@ -51,7 +47,6 @@ public class MatrizMaker extends JPanel {
                 final JLabel jLabel = new JLabel(String.valueOf(count));
                 final JPanel panel = centerJLabel(jLabel);
                 lightBox(count, currentPos, panel, player);
-                //count++;
 
                 /*if(Controller.STAIRS.containsValue(count)) {
                     jLabel.setIcon(getIcon(LADDER));
@@ -101,29 +96,27 @@ public class MatrizMaker extends JPanel {
     }
 
     public static JPanel centerJLabel(final JLabel jLabel) {
-        final JPanel panel = new JPanel(new BorderLayout());
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(70, 60));
         panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-        //Para centrar el JLabel dentro del JPanel
+        
         jLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         panel.add(jLabel, BorderLayout.CENTER);
-        panel.setPreferredSize(new Dimension(70, 60));
         return panel;
     }
 
     public static ImageIcon getIcon(final String iconName) {
-        return Objects.requireNonNull(new ImageIcon(iconName),
-                "el icono no se encuentra");
-
+        return Objects.requireNonNull(new ImageIcon(iconName), "El icono no se encuentra");
     }
 
     private void lightBox(final int count, final int currentPos, JPanel panel, final Player player) {
         Logger.log("Current Post: " + count);
         if (count == currentPos) {
-            if(player.getName().equals(Player.PLAYER_1)) {
+            if(player.getName().equals("player 1")) {
                 panel.setBackground(Color.blue);
-            } else if(player.getName().equals(Player.PLAYER_2)) {
+            } else if(player.getName().equals("player 2")) {
                 panel.setBackground(Color.GREEN);
-            } else {//Player 3
+            } else {
                 panel.setBackground(Color.RED);
             }
         }

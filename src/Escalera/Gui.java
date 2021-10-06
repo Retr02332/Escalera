@@ -1,18 +1,18 @@
 package Escalera;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Font;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.List;
 
 import javax.swing.JSeparator;
 import javax.swing.JButton;
@@ -22,7 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Gui extends JFrame {
-	private Player player;
     private JLabel labelDie;
     private JButton rollDie;
     private Listener listener;
@@ -36,6 +35,7 @@ public class Gui extends JFrame {
     private MatrizMaker matrizMaker;
     private GridBagConstraints constraints;
     private JPanel panelInfo = new JPanel(new GridBagLayout());
+    private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     public Gui() {
         initGui();
@@ -49,10 +49,9 @@ public class Gui extends JFrame {
     }
 
     public void initGui() {
-        this.controller = new Controller();
-        this.player = controller.getPlayer();
-        this.player.setName(Player.PLAYER_1);
-        this.matrizMaker = new MatrizMaker(10, 0, 1, player);
+        controller = new Controller();
+        controller.setNamePlayers();
+        matrizMaker = new MatrizMaker(10, 0, 1, controller.getPlayer());
         panelInfo.setPreferredSize(new Dimension(750, 115));
         listener = new Listener();
 
@@ -109,56 +108,21 @@ public class Gui extends JFrame {
 
         // Logica de escaleras y serpientes
         if (controller.stair(newPosition.get(1)) != -1) {
-            up(newPosition, this.player);
+            up(newPosition);
         } else if (controller.snake(newPosition.get(1)) != -1) {
-            down(newPosition, this.player);
+            down(newPosition);
         } else {
-            go(newPosition, this.player);
+            go(newPosition);
         }
-        //Habilitando el turno del siguiente jugador
-        cpuTurn2 = true;
     }
 
-    private void movePlayer2() {
-        List<Integer> newPosition = controller.getTurnPlayer2();
-        labelDie.setText("Cara actual: " + newPosition.get(0));
-        final Player player2 = controller.getPlayer2();
-        // Logica de escaleras y serpientes
-        if (controller.stair(newPosition.get(1)) != -1) {
-            up(newPosition, player2);
-        } else if (controller.snake(newPosition.get(1)) != -1) {
-            down(newPosition, player2);
-        } else {
-            go(newPosition, player2);
-        }
-        //Habilitando el turno del siguiente jugador
-        cpuTurn3 = true;
-    }
-
-    private void movePlayer3() {
-        List<Integer> newPosition = controller.getTurnPlayer3();
-        labelDie.setText("Cara actual: " + newPosition.get(0));
-        final Player player3 = controller.getPlayer3();
-        // Logica de escaleras y serpientes
-        if (controller.stair(newPosition.get(1)) != -1) {
-            up(newPosition, player3);
-        } else if (controller.snake(newPosition.get(1)) != -1) {
-            down(newPosition, player3);
-        } else {
-            go(newPosition, player3);
-        }
-        //Habilitamos el boton del Jugador
-        rollDie.setEnabled(true);
-    }
-
-    private void up(List<Integer> newPosition, Player player) {
-        matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1), player);
-        paintBox();
-
+    private void up(List<Integer> newPosition) {
+        go(newPosition);
+        
         ActionListener upListener = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 synchronized (this) {
-                    playerUP(newPosition, player);
+                    playerUP(newPosition);
                     delayPlayerUP.stop();
                 }
             }
@@ -167,14 +131,13 @@ public class Gui extends JFrame {
         delayPlayerUP.start();
     }
 
-    private void down(List<Integer> newPosition, Player player) {
-        matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1), player);
-        paintBox();
+    private void down(List<Integer> newPosition) {
+    	go(newPosition);
 
         ActionListener downListener = new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 synchronized (this) {
-                    playerDOWN(newPosition, player);
+                    playerDOWN(newPosition);
                     delayPlayerDOWN.stop();
                 }
             }
@@ -182,66 +145,49 @@ public class Gui extends JFrame {
         delayPlayerDOWN = new Timer(1000, downListener);
         delayPlayerDOWN.start();
     }
+    
+    private void go(List<Integer> newPosition) {
+        matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1), controller.getPlayer());
+        paintBox();
+    }
 
-    private void playerUP(List<Integer> newPosition, Player player) {
+    private void playerUP(List<Integer> newPosition) {
         controller.movePlayerBackend(controller.stair(newPosition.get(1)));
-        matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.stair(newPosition.get(1)), player);
+        matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.stair(newPosition.get(1)), controller.getPlayer());
         paintBox();
     }
 
-    private void playerDOWN(List<Integer> newPosition, Player player) {
+    private void playerDOWN(List<Integer> newPosition) {
         controller.movePlayerBackend(controller.snake(newPosition.get(1)));
-        matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.snake(newPosition.get(1)), player);
+        matrizMaker = new MatrizMaker(10, newPosition.get(0), controller.snake(newPosition.get(1)), controller.getPlayer());
         paintBox();
-    }
-
-    private void go(List<Integer> newPosition, Player player) {
-        matrizMaker = new MatrizMaker(10, newPosition.get(0), newPosition.get(1), player);
-        paintBox();
-    }
-
-    private void clearFrame() {
-        synchronized (this) {
-            jframe.getContentPane().removeAll();
-            this.updateGUI();
-            jframe.revalidate();
-            jframe.repaint();
-        }
-
     }
 
     private void paintBox() {
         synchronized (this) {
-            clearFrame();
-            updateGUI();
+        	updateFrame();
             validateUpdateFrame();
         }
     }
-
-    private void updateGUI() {
-        add(matrizMaker, BorderLayout.NORTH);
-        add(new JSeparator(), BorderLayout.CENTER);
-        add(panelInfo, BorderLayout.SOUTH);
+    
+    private void updateFrame() {
+        synchronized (this) {
+            jframe.getContentPane().removeAll();
+            updateGUI();
+            jframe.revalidate();
+            jframe.repaint();
+        }
     }
 
     private void validateUpdateFrame() {
         jframe.validate();
     }
-
-    //Turno del CPU
-    private boolean cpuTurn2 = false;
-    private boolean cpuTurn3 = false;
-
-    public boolean isCpuTurn2() {
-        return cpuTurn2;
+    
+    private void updateGUI() {
+        add(matrizMaker, BorderLayout.NORTH);
+        add(new JSeparator(), BorderLayout.CENTER);
+        add(panelInfo, BorderLayout.SOUTH);
     }
-
-    public boolean isCpuTurn3() {
-        return cpuTurn3;
-    }
-
-    //Para administrar mejor RAM y CPU sin crear demasiados Hilos.
-    private ExecutorService executorService = Executors.newFixedThreadPool(10);
 
     private class Listener implements ActionListener {
 
@@ -250,15 +196,18 @@ public class Gui extends JFrame {
             if (eventAction.getSource() == rollDie) {
                 movePlayer();
                 rollDie.setEnabled(false);
-                //sleep(1000);
+                controller.nextTurn();
                 CompletableFuture.runAsync(() -> {
                     sleep(1000);
-                    if (isCpuTurn2()) {
-                        movePlayer2();
+                    if (controller.getTurn() == 1) {
+                        movePlayer();
+                        controller.nextTurn();
                     }
                     sleep(1000);
-                    if (isCpuTurn3()) {
-                        movePlayer3();
+                    if (controller.getTurn() == 2) {
+                        movePlayer();
+                        rollDie.setEnabled(true);
+                        controller.nextTurn();
                     }
                     sleep(1000);
                 },executorService);
@@ -273,5 +222,4 @@ public class Gui extends JFrame {
             Thread.currentThread().interrupt();
         }
     }
-
 }

@@ -1,5 +1,7 @@
 package Escalera;
 
+import java.util.List;
+
 /**
  * Interface for simple loggin
  */
