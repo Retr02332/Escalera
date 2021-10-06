@@ -40,55 +40,48 @@ public class MatrizMaker extends JPanel {
         int count5 = 80;
         int count6 = 100;
 
-        final int[][] matriz = new int[filas][columnas];
-
-        for (int f = 0; f < matriz.length; f++) {
-            for (int c = 0; c < matriz[f].length; c++) {
+        for (int f = 0; f < filas; f++) {
+            for (int c = 0; c < columnas; c++) {
                 final JLabel jLabel = new JLabel(String.valueOf(count));
                 final JPanel panel = centerJLabel(jLabel);
                 lightBox(count, currentPos, panel, player);
-
-                /*if(Controller.STAIRS.containsValue(count)) {
-                    jLabel.setIcon(getIcon(LADDER));
-                }
-
-                if(Controller.STAIRS.containsKey(count)) {
-                    jLabel.setIcon(getIcon(LADDER));
-                }
-
-                if(Controller.SNAKES.containsValue(count)) {
-                    jLabel.setIcon(getIcon(SNAKE));
-                }
-                if(Controller.SNAKES.containsKey(count)) {
-                    jLabel.setIcon(getIcon(SNAKE));
-                }*/
                 count++;
-
-                if (f == 1) {
-                    jLabel.setText(String.valueOf(count2));
-                    panel.setBackground(Color.lightGray.brighter());
-                    lightBox(count2, currentPos, panel, player);
-                    count2--;
-                } else if (f == 3) {
-                    jLabel.setText(String.valueOf(count3));
-                    panel.setBackground(Color.lightGray.brighter());
-                    lightBox(count3, currentPos, panel, player);
-                    count3--;
-                } else if (f == 5) {
-                    jLabel.setText(String.valueOf(count4));
-                    panel.setBackground(Color.lightGray.brighter());
-                    lightBox(count4, currentPos, panel, player);
-                    count4--;
-                } else if (f == 7) {
-                    jLabel.setText(String.valueOf(count5));
-                    panel.setBackground(Color.lightGray.brighter());
-                    lightBox(count5, currentPos, panel, player);
-                    count5--;
-                } else if (f == 9) {
-                    jLabel.setText(String.valueOf(count6));
-                    panel.setBackground(Color.lightGray.brighter());
-                    lightBox(count6, currentPos, panel, player);
-                    count6--;
+                
+                switch(f) {
+                    case 1:
+                    	jLabel.setText(String.valueOf(count2));
+                        panel.setBackground(Color.lightGray.brighter());
+                        lightBox(count2, currentPos, panel, player);
+                        count2--;
+                        break;
+                        
+                    case 3:
+                    	jLabel.setText(String.valueOf(count3));
+                        panel.setBackground(Color.lightGray.brighter());
+                        lightBox(count3, currentPos, panel, player);
+                        count3--;
+                        break;
+                    
+                    case 5:
+                    	jLabel.setText(String.valueOf(count4));
+                        panel.setBackground(Color.lightGray.brighter());
+                        lightBox(count4, currentPos, panel, player);
+                        count4--;
+                        break;
+                        
+                    case 7:
+                    	jLabel.setText(String.valueOf(count5));
+                        panel.setBackground(Color.lightGray.brighter());
+                        lightBox(count5, currentPos, panel, player);
+                        count5--;
+                        break;
+                    
+                    case 9:
+                    	jLabel.setText(String.valueOf(count6));
+                        panel.setBackground(Color.lightGray.brighter());
+                        lightBox(count6, currentPos, panel, player);
+                        count6--;
+                        break;
                 }
                 super.add(panel, c);
             }
