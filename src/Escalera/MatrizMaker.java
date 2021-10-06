@@ -37,49 +37,49 @@ public class MatrizMaker extends JPanel {
     }
 
     private void fillMatriz(final int faceDie, final int currentPos, final Player player) {
-        List<Integer> counters = Arrays.asList(1, 20, 40, 60, 80, 100); 
+        List<Integer> counters = Arrays.asList(1, 20, 40, 60, 80, 100);
 
         for (int f = 0; f < filas; f++) {
             for (int c = 0; c < columnas; c++) {
                 final JLabel jLabel = new JLabel(String.valueOf(counters.get(0)));
                 final JPanel panel = centerJLabel(jLabel);
                 lightBox(counters.get(0), currentPos, panel, player);
-                counters.set(counters.indexOf(counters.get(0)), counters.get(0)+1);
+                counters.set(0, counters.get(0)+1);
                 
                 switch(f) {
                     case 1:
                     	jLabel.setText(String.valueOf(counters.get(1)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(1), currentPos, panel, player);
-                        counters.set(counters.indexOf(counters.get(1)), counters.get(1)-1);
+                        counters.set(1, counters.get(1)-1);
                         break;
                         
                     case 3:
                     	jLabel.setText(String.valueOf(counters.get(2)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(2), currentPos, panel, player);
-                        counters.set(counters.indexOf(counters.get(2)), counters.get(2)-1);
+                        counters.set(2, counters.get(2)-1);
                         break;
                     
                     case 5:
                     	jLabel.setText(String.valueOf(counters.get(3)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(3), currentPos, panel, player);
-                        counters.set(counters.indexOf(counters.get(3)), counters.get(3)-1);
+                        counters.set(3, counters.get(3)-1);
                         break;
                         
                     case 7:
                     	jLabel.setText(String.valueOf(counters.get(4)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(4), currentPos, panel, player);
-                        counters.set(counters.indexOf(counters.get(4)), counters.get(4)-1);
+                        counters.set(4, counters.get(4)-1);
                         break;
                     
                     case 9:
                     	jLabel.setText(String.valueOf(counters.get(5)));
                         panel.setBackground(Color.lightGray.brighter());
                         lightBox(counters.get(5), currentPos, panel, player);
-                        counters.set(counters.indexOf(counters.get(5)), counters.get(5)-1);
+                        counters.set(5, counters.get(5)-1);
                         break;
                 }
                 super.add(panel, c);
@@ -102,7 +102,7 @@ public class MatrizMaker extends JPanel {
     }
 
     private void lightBox(final int count, final int currentPos, JPanel panel, final Player player) {
-        Logger.log("Current Post: " + count);
+        Logger.log("Current Pos: " + count);
         if (count == currentPos) {
             if(player.getName().equals("player 1")) {
                 panel.setBackground(Color.blue);
