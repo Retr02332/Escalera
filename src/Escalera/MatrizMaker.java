@@ -44,7 +44,6 @@ public class MatrizMaker extends JPanel {
                 final JLabel jLabel = new JLabel(String.valueOf(counters.get(0)));
                 final JPanel panel = centerJLabel(jLabel);
                 lightBox(counters.get(0), currentPos, panel, player);
-                injectImg(jLabel, counters.get(0)); // Error
                 counters.set(0, counters.get(0)+1);
                 
                 switch(f) {
@@ -116,14 +115,11 @@ public class MatrizMaker extends JPanel {
         }
     }
     
-    public void injectImg(JLabel jLabel, int currentPos) {
-    	if(Controller.STAIRS.containsKey(currentPos) || Controller.STAIRS.containsValue(currentPos)) {
-    		System.out.println("Count: "+currentPos);
-    		System.out.println("Key: "+Controller.STAIRS.containsKey(currentPos));
-    		System.out.println("Value: "+Controller.STAIRS.containsValue(currentPos));
+    public void injectImg(JLabel jLabel, int count) {
+    	if(Controller.STAIRS.containsKey(count) || Controller.STAIRS.containsValue(count)) {
             jLabel.setIcon(getIcon(LADDER));
         }
-    	else if(Controller.SNAKES.containsKey(currentPos) || Controller.SNAKES.containsValue(currentPos)) {
+    	else if(Controller.SNAKES.containsKey(count) || Controller.SNAKES.containsValue(count)) {
     		jLabel.setIcon(getIcon(SNAKE));
     	}
     }

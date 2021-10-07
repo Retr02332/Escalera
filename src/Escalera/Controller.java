@@ -13,11 +13,11 @@ public class Controller {
 	private int turn = 0;
 
 	public Controller() {
-		STAIRS.put(17,47);
-		STAIRS.put(32,69);
-		STAIRS.put(63,82);
-		SNAKES.put(96,52);
-		SNAKES.put(42,22);
+		STAIRS.put(17,34);
+		STAIRS.put(40,80);
+		STAIRS.put(56,92);
+		SNAKES.put(99,37);
+		SNAKES.put(51,14);
 		SNAKES.put(29,7);
 	}
 	

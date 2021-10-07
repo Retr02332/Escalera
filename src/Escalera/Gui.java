@@ -198,18 +198,18 @@ public class Gui extends JFrame {
                 rollDie.setEnabled(false);
                 controller.nextTurn();
                 CompletableFuture.runAsync(() -> {
-                    sleep(1000);
+                    sleep(900);
                     if (controller.getTurn() == 1) {
                         movePlayer();
                         controller.nextTurn();
                     }
-                    sleep(1000);
+                    sleep(900);
                     if (controller.getTurn() == 2) {
                         movePlayer();
                         rollDie.setEnabled(true);
                         controller.nextTurn();
                     }
-                    sleep(1000);
+                    sleep(900);
                 },executorService);
             }
         }
