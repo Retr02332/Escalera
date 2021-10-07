@@ -102,8 +102,9 @@ public class MatrizMaker extends JPanel {
         return panel;
     }
 
-    private void lightBox(final int count, final int currentPos, JPanel panel, final Player player) {
+    private void lightBox(final int count, int currentPos, JPanel panel, final Player player) {
         Logger.log("Current Pos: " + count);
+        if(currentPos > 100) {currentPos = 100; player.move(100);}
         if (count == currentPos) {
             if(player.getName().equals("player 1")) {
                 panel.setBackground(Color.blue);

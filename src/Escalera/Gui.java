@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -114,6 +115,7 @@ public class Gui extends JFrame {
         } else {
             go(newPosition);
         }
+        displayWinner();
     }
 
     private void up(List<Integer> newPosition) {
@@ -188,6 +190,17 @@ public class Gui extends JFrame {
         add(new JSeparator(), BorderLayout.CENTER);
         add(panelInfo, BorderLayout.SOUTH);
     }
+    
+    private void displayWinner() {
+    	if(controller.getPlayer().getCurrentPosition() == 100) {
+    		JOptionPane.showMessageDialog(
+					null, 
+					controller.getMessageWinner(), 
+					"Ganador del juego", 
+					JOptionPane.INFORMATION_MESSAGE
+			);
+    	}
+    }
 
     private class Listener implements ActionListener {
 
@@ -196,7 +209,6 @@ public class Gui extends JFrame {
             if (eventAction.getSource() == rollDie) {
                 movePlayer();
                 rollDie.setEnabled(false);
-                //controller.nextTurn();
                 CompletableFuture.runAsync(() -> {
                     sleep(2000);
                     controller.nextTurn();

@@ -40,6 +40,10 @@ public class Controller {
 		return turn;
 	}
 	
+	public String getMessageWinner() {
+		return "Felicidades " + getPlayer().getName();
+	}
+	
 	/*
 	 * Función para actualizar la posición (casilla) actual del jugador
 	 * 
