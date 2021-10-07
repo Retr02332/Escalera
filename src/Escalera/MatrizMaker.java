@@ -17,9 +17,11 @@ import java.awt.Dimension;
 import java.awt.Color;
 
 /**
- * Make a GridLayout
+ * 
+ * @author retr02332
+ * Clase utilizada para realizar todas las operaciónes de despliegue y personalización del tablero de juego
+ *
  */
-
 public class MatrizMaker extends JPanel {
     private final int filas;
     private final int columnas;
@@ -27,6 +29,14 @@ public class MatrizMaker extends JPanel {
     private static final String SNAKE = "src/img/snake.png";
     private static final String LADDER = "src/img/ladder.png";
 
+    /**
+     * Constructor especialmente diseñado para crear el tablero de juego bajo las condiciones especificadas
+     * 
+     * @param dimension, tamaño de la matriz
+     * @param faceDie, cara del dado resultante despues de girarlo
+     * @param currentPos, posición actual del jugador
+     * @param player, objeto que representa al jugador actual
+     */
     public MatrizMaker(final int dimension, final int faceDie, final int currentPos, final Player player) {
         this.filas = dimension;
         this.columnas = dimension;
@@ -35,14 +45,21 @@ public class MatrizMaker extends JPanel {
 
         fillMatriz(faceDie, currentPos, player);
     }
-
+    
+    /**
+     * Función para rellenar la matriz
+     * 
+     * @param faceDie, La cara del dado resultante despues de girarlo
+     * @param currentPos, Posición actual del jugador
+     * @param player, Objeto player del jugador actual
+     */
     private void fillMatriz(final int faceDie, final int currentPos, final Player player) {
         List<Integer> counters = Arrays.asList(1, 20, 40, 60, 80, 100);
 
         for (int f = 0; f < filas; f++) {
             for (int c = 0; c < columnas; c++) {
                 final JLabel jLabel = new JLabel(String.valueOf(counters.get(0)));
-                final JPanel panel = centerJLabel(jLabel);
+                final JPanel panel = alignJLabel(jLabel);
                 lightBox(counters.get(0), currentPos, panel, player);
                 counters.set(0, counters.get(0)+1);
                 
@@ -91,8 +108,15 @@ public class MatrizMaker extends JPanel {
             }
         }
     }
-
-    private static JPanel centerJLabel(final JLabel jLabel) {
+    
+    /**
+     * Función para alinear la numeración en la casilla del tablero
+     * 
+     * @param jLabel, contiene la numeración de la casilla
+     * 
+     * @return un panel que contiene la casilla con su debida numeración orientada
+     */
+    private static JPanel alignJLabel(final JLabel jLabel) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(70, 60));
         panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -101,7 +125,15 @@ public class MatrizMaker extends JPanel {
         panel.add(jLabel, BorderLayout.CENTER);
         return panel;
     }
-
+    
+    /**
+     * Función para simular el movimiento del jugador durante la partida
+     * 
+     * @param count, numero de casilla actual
+     * @param currentPos, posición actual del jugador
+     * @param panel, panel que representa las casillas del tablero
+     * @param player, representa al jugador actual
+     */
     private void lightBox(final int count, int currentPos, JPanel panel, final Player player) {
         Logger.log("Current Pos: " + count);
         if(currentPos > 100) {currentPos = 100; player.move(100);}
@@ -116,6 +148,12 @@ public class MatrizMaker extends JPanel {
         }
     }
     
+    /**
+     * Función para inyectar las imagenes de escaleras y serpientes en las casillas correspondientes
+     * 
+     * @param jLabel, representa la imagen a inyectar
+     * @param count, representa la numeración de la casilla en cuestión
+     */
     private void injectImg(JLabel jLabel, int count) {
     	if(Controller.STAIRS.containsKey(count) || Controller.STAIRS.containsValue(count)) {
             jLabel.setIcon(getIcon(LADDER));
@@ -125,6 +163,13 @@ public class MatrizMaker extends JPanel {
     	}
     }
     
+    /**
+     * Función para obtener la imagen a utilizar
+     * 
+     * @param iconName, ruta en donde se encuentra la imagen
+     * 
+     * @return, la imagen previamente solicitada
+     */
     private static ImageIcon getIcon(final String iconName) {
         return Objects.requireNonNull(new ImageIcon(iconName), "El icono no se encuentra");
     }

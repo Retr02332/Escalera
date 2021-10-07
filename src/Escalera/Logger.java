@@ -6,5 +6,5 @@ package Escalera;
 public interface Logger {
     static <T> void log(T data) {
         System.out.println(data);
-    }
+ }
 }
