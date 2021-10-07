@@ -48,7 +48,7 @@ public class Gui extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public void initGui() {
+    private void initGui() {
         controller = new Controller();
         controller.setNamePlayers();
         matrizMaker = new MatrizMaker(10, 0, 1, controller.getPlayer());
@@ -88,7 +88,7 @@ public class Gui extends JFrame {
         add(panelInfo, BorderLayout.SOUTH);
     }
 
-    public GridBagConstraints makeConstraints(int gridx, int gridy, int gridwidth, int gridheight, int ipady, int fill) {
+    private GridBagConstraints makeConstraints(int gridx, int gridy, int gridwidth, int gridheight, int ipady, int fill) {
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -127,7 +127,7 @@ public class Gui extends JFrame {
                 }
             }
         };
-        delayPlayerUP = new Timer(1000, upListener);
+        delayPlayerUP = new Timer(500, upListener);
         delayPlayerUP.start();
     }
 
@@ -142,7 +142,7 @@ public class Gui extends JFrame {
                 }
             }
         };
-        delayPlayerDOWN = new Timer(1000, downListener);
+        delayPlayerDOWN = new Timer(500, downListener);
         delayPlayerDOWN.start();
     }
     
@@ -196,20 +196,21 @@ public class Gui extends JFrame {
             if (eventAction.getSource() == rollDie) {
                 movePlayer();
                 rollDie.setEnabled(false);
-                controller.nextTurn();
+                //controller.nextTurn();
                 CompletableFuture.runAsync(() -> {
-                    sleep(900);
+                    sleep(2000);
+                    controller.nextTurn();
                     if (controller.getTurn() == 1) {
                         movePlayer();
+                        sleep(2000);
                         controller.nextTurn();
                     }
-                    sleep(900);
                     if (controller.getTurn() == 2) {
                         movePlayer();
+                        sleep(1000);
                         rollDie.setEnabled(true);
                         controller.nextTurn();
                     }
-                    sleep(900);
                 },executorService);
             }
         }

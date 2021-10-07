@@ -92,7 +92,7 @@ public class MatrizMaker extends JPanel {
         }
     }
 
-    public static JPanel centerJLabel(final JLabel jLabel) {
+    private static JPanel centerJLabel(final JLabel jLabel) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(70, 60));
         panel.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
@@ -115,7 +115,7 @@ public class MatrizMaker extends JPanel {
         }
     }
     
-    public void injectImg(JLabel jLabel, int count) {
+    private void injectImg(JLabel jLabel, int count) {
     	if(Controller.STAIRS.containsKey(count) || Controller.STAIRS.containsValue(count)) {
             jLabel.setIcon(getIcon(LADDER));
         }
@@ -124,7 +124,7 @@ public class MatrizMaker extends JPanel {
     	}
     }
     
-    public static ImageIcon getIcon(final String iconName) {
+    private static ImageIcon getIcon(final String iconName) {
         return Objects.requireNonNull(new ImageIcon(iconName), "El icono no se encuentra");
     }
 }

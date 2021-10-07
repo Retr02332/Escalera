@@ -17,8 +17,8 @@ public class Controller {
 		STAIRS.put(40,80);
 		STAIRS.put(56,92);
 		SNAKES.put(99,37);
+		SNAKES.put(74,54);
 		SNAKES.put(51,14);
-		SNAKES.put(29,7);
 	}
 	
 	public void setNamePlayers() {
