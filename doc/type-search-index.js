@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"Escalera","l":"Controller"},{"p":"Escalera","l":"Dado"},{"p":"Escalera","l":"Game"},{"p":"Escalera","l":"Gui"},{"p":"Escalera","l":"Gui.Listener"},{"p":"Escalera","l":"Logger"},{"p":"Escalera","l":"MatrizMaker"},{"p":"Escalera","l":"Player"}];updateSearchResults();
